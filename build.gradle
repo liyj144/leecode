@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.6.RELEASE'
+        springLoadedVersion = '1.2.8.RELEASE'
+    }
+}
+
+group 'com.yeluo.leecode'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+jar {
+    baseName = 'leecode'
+    version = '1.0-SNAPSHOT'
+    jar {
+        exclude('application*.yml')
+    }
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+        testOutputDir = file("$buildDir/classes/test/")
+    }
+}
+
+configurations {
+    provided {
+        dependencies.all { dep ->
+            configurations.default.exclude group: dep.group, module: dep.name
+        }
+    }
+    compile.extendsFrom provided
+}
+
+dependencies {
+    compile('commons-io:commons-io:2.5')
+    compile('commons-lang:commons-lang:2.6')
+    compile('mysql:mysql-connector-java:5.1.40')
+    compile('org.apache.commons:commons-lang3:3.6')
+    compile('com.fasterxml.jackson.core:jackson-core:2.8.5')
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.8.5')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.8.5')
+    compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.5')
+    compile('com.google.guava:guava:23.0')
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
